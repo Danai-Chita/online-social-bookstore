@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Recommendations</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        .book-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search for Book Recommendations</h1>
+        <form th:action="@{/user/search-recommendation-results}" method="post" th:object="${searchFormData}">
+            <div class="form-group">
+                <label for="recommendationType">Select Recommendation Type:</label>
+                <select th:field="*{recommendationType}" id="recommendationType" class="form-control">
+                    <option value="CATEGORY">Category-based</option>
+                    <option value="AUTHOR">Author-based</option>
+                    <option value="COMPOSITE">Composite (Both)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+</body>
+</html>

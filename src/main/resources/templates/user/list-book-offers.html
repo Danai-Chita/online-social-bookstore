@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Offers</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #444;
+            text-align: center;
+        }
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .book-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin: 10px;
+            padding: 20px;
+            width: 300px; /* Adjusted width for better uniformity */
+            position: relative;
+        }
+        .book-card p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        .book-card ul {
+            padding-left: 20px; /* Added padding for better alignment of authors list */
+        }
+        .book-card span {
+            font-weight: bold;
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #5cb85c;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #4cae4c;
+        }
+        .btn-delete {
+            background-color: #d9534f;
+            position: absolute;
+            top: 10px; /* Adjusted top margin for better alignment */
+            right: 10px; /* Adjusted right margin for uniformity */
+            padding: 5px 10px; /* Smaller padding for a neater look */
+        }
+        .btn-delete:hover {
+            background-color: #c9302c;
+        }
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book Offers</h1>
+    <div class="button-container">
+        <a th:href="@{/user/offer-form}" class="btn">Add New Book Offer</a>
+    </div>
+    <div class="content">
+        <div th:each="book : ${bookOffers}" class="book-card">
+            <p>Title: <span th:text="${book.title}"></span></p>
+            <p>Authors: 
+                <ul>
+                    <li th:each="author : ${book.authorNames}" th:text="${author}"></li>
+                </ul>
+            </p>
+            <p>Category: <span th:text="${book.categoryName}"></span></p>
+            <p>Summary: <span th:text="${book.summary}"></span></p>
+            <a th:href="@{'/user/delete-book-offer/' + ${book.bookId}}" class="btn btn-delete">Delete</a>
+        </div>
+    </div>
+    <div class="button-container">
+        <a th:href="@{/user/dashboard}" class="btn btn-back">Back</a>
+    </div>
+</body>
+</html>

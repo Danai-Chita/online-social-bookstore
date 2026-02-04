@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Book Requests</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Book Requests</h1>
+        <div class="list-group">
+            <a th:each="book : ${bookRequests}" 
+               th:href="@{'/user/book-offer-requests/' + ${book.bookId}}" 
+               class="list-group-item list-group-item-action">
+                <h4 th:text="${book.title}"></h4>
+                <p>Category: <span th:text="${book.categoryName}"></span></p>
+                <p>Summary: <span th:text="${book.summary}"></span></p>
+            </a>
+        </div>
+        <a th:href="@{/user/dashboard}" class="btn btn-primary mt-3">Back to Dashboard</a>
+    </div>
+</body>
+</html>

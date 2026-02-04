@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #edf2f7;
+            color: #4a5568;
+            padding: 20px;
+        }
+        h1 {
+            color: #2d3748;
+            text-align: center;
+        }
+        form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #3182ce;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 1rem 0;
+        }
+        .checkbox-group label {
+            flex: 1 1 50%;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        button {
+            background-color: #4c51bf;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2b6cb0;
+        }
+        button.add-author {
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Profile</h1>
+    <form th:action="@{/user/save}" th:object="${userProfileFormData}" method="post">
+        <div class="input-group">
+            <input type="text" th:field="*{fullName}" placeholder="Full Name"/>
+        </div>
+        <div class="input-group">
+            <input type="text" th:field="*{address}" placeholder="Address"/>
+        </div>
+        <div class="input-group">
+            <input type="number" th:field="*{age}" placeholder="Age"/>
+        </div>
+        <div class="input-group">
+            <input type="text" th:field="*{phoneNumber}" placeholder="Phone Number"/>
+        </div>
+        <input type="hidden" th:field="*{profileId}"/>
+        <input type="hidden" th:field="*{userId}"/>
+
+        <div class="checkbox-group">
+            <div th:each="category : ${allCategories}">
+                <input type="checkbox" th:field="*{favouriteCategory}" th:value="${category.key}"
+                       th:checked="${#lists.contains(userProfileFormData.favouriteCategory, category.key)}" id="cat_${category.key}"/>
+                <label th:for="${'cat_' + category.key}" th:text="${category.value}"></label>
+            </div>
+        </div>
+        
+        <div id="author-container">
+            <div th:each="author, stat : *{favouriteAuthors}" class="input-group">
+                <input type="text" th:field="*{favouriteAuthors[__${stat.index}__].authorName}" placeholder="Author Name"/>
+            </div>
+        </div>
+        <button type="button" class="add-author" onclick="addAuthorField()">Add More Authors</button>
+        
+        <button type="submit">Save Profile</button>
+    </form>
+    <script>
+        function addAuthorField() {
+            var authorContainer = document.getElementById('author-container');
+            var newInputGroup = document.createElement('div');
+            newInputGroup.classList.add('input-group');
+
+            var newField = document.createElement('input');
+            newField.type = 'text';
+            newField.name = 'favouriteAuthors[' + authorContainer.children.length + '].authorName';
+            newField.placeholder = 'Author Name';
+            newField.className = 'input-full border-2 p-2 rounded-md focus:border-blue-500 transition-colors';
+
+            newInputGroup.appendChild(newField);
+            authorContainer.appendChild(newInputGroup);
+        }
+    </script>
+</body>
+</html>

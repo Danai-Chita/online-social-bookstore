@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.0.7/dist/tailwind.min.css" rel="stylesheet">
+    <title>Social BookStore Portal</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #e2e8f0;
+            color: #1a202c;
+        }
+        .header {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .main-container {
+            padding: 40px 20px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #4c51bf;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #44337a;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Our Online Social BookStore Portal</h1>
+    </div>
+
+    <div class="main-container">
+        <div sec:authorize="hasRole('ROLE_ANONYMOUS')">
+            <h2>Please log in or register to continue</h2>
+            <a th:href="@{/login}" class="btn">Login</a>
+            <a th:href="@{/register}" class="btn">Register</a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()" class="card">
+            <h3>My Profile</h3>
+            <p>Logged in as: <strong><span sec:authentication="name"></span></strong></p>
+            <div th:object="${userProfileFormData}">
+                <h4>Profile Information</h4>
+                <p><strong>Full Name:</strong> <span th:text="*{fullName}"></span></p>
+                <p><strong>Address:</strong> <span th:text="*{address}"></span></p>
+                <p><strong>Age:</strong> <span th:text="*{age}"></span></p>
+                <p><strong>Phone Number:</strong> <span th:text="*{phoneNumber}"></span></p>
+                <h4>Favorite Categories:</h4>
+                <ul>
+                    <li th:each="category : *{favouriteCategory}" th:text="${category.categoryName}"></li>
+                </ul>
+                <h4>Favorite Authors:</h4>
+                <ul>
+                    <li th:each="author : *{favouriteAuthors}" th:text="${author.authorName}"></li>
+                </ul>
+            </div>
+            <div>
+                <a th:href="@{/user/retrieveProfile}" class="btn">Edit Profile Information</a>
+                <a th:href="@{/user/offers}" class="btn">Show Book Offers</a>
+                <a th:href="@{/user/search}" class="btn">Search Book Offers</a>
+                <a th:href="@{/user/recommendations-search}" class="btn">Recommended Book Offers</a>
+                <a th:href="@{/user/book-requests}" class="btn">Requested Users for my Book Offers</a>
+                <a th:href="@{/logout}" class="btn" style="background-color: #e53e3e;">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

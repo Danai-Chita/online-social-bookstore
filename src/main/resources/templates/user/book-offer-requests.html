@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Requesting Users for Book Offer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Users Requesting Your Book Offer</h1>
+        <div class="list-group">
+            <div th:each="user : ${requestingUsers}" class="list-group-item">
+                <h4 th:text="${user.fullName}"></h4>
+                <p>Address: <span th:text="${user.address}"></span></p> 
+                <p>Age: <span th:text="${user.age}"></span></p> 
+                <p>Phone: <span th:text="${user.phoneNumber}"></span></p>
+                <a th:href="@{'/user/delete-book-request/' + ${bookId} + '/' + ${user.profileId}}" class="btn btn-info">Accept User</a>
+            </div>
+        </div>
+        <a th:href="@{/user/book-requests}" class="btn btn-primary mt-3">Back to My Offers</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- Custom Styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h2 {
+            color: #343a40;
+        }
+        .btn-primary {
+            background-color: #343a40;
+            border-color: #343a40;
+        }
+    </style>
+
+    <title>Homepage</title>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="my-4">Welcome to Our Online Social BookStore Portal</h2>
+
+        <div sec:authorize="hasRole('ROLE_ANONYMOUS')">
+            <p class="lead">Please log in or register to continue:</p>
+            <a th:href="@{/login}" class="btn btn-primary btn-sm mb-3">Login</a>
+            <a th:href="@{/register}" class="btn btn-primary btn-sm mb-3">Register</a>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <h4 class="mb-3">Logged in as: <span sec:authentication="name"></span></h4>
+            <h4 class="mb-3">Your role: <span sec:authentication="authorities"></span></h4>
+
+            <p sec:authorize="hasAuthority('USER')">
+                <a th:href="@{/}" class="btn btn-primary btn-sm mb-3">User's Dashboard</a>
+                <a th:href="@{/logout}" class="btn btn-danger btn-sm mb-3">Logout</a>
+            </p>
+
+        </div>
+    </div>
+</body>
+</html>
